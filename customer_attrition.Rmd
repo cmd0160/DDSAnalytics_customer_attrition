@@ -1,0 +1,77 @@
+---
+title: "Frito Lay: Customer Attrition"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(caret)
+library(e1071)
+library(class)
+library(ggthemes)
+```
+
+
+# ------------ Data Loading -------------
+```{r}
+getwd()
+data <- read.csv("Downloads/CaseStudy1-data.csv")
+```
+
+# ------------ Data Quality, Structure & Sanity Checks -------------
+```{r}
+# Data Dimensionality
+dim(data) 
+```
+
+```{r}
+# Missing Values
+sum(is.na(data)) 
+```
+
+```{r}
+str(data)
+```
+
+
+```{r}
+# Summary statistics
+summary(data)
+```
+
+```{r}
+# Duplicate Analysis
+sum(duplicated(data))
+```
+
+```{r}
+# Columns in data
+colnames(data)
+```
+
+```{r}
+ggplot(data = data, mapping = aes(x = Attrition))  + geom_bar() + ggtitle("Attrition Distribution") + theme_economist()
+```
+
+
+# ------------- Target Analysis ---------------
+
+# Summarize the Attrition Rate  
+```{r}
+# Gives me a input level breakdown of the target variable
+data$Attrition
+
+# Creates a count table (super useful!)
+table(data$Attrition)
+
+# Gives me the proportion of each level in the target variable
+prop.table(table(data$Attrition)) * 100
+```
+
+Frito Lays' Attrition rate is 16.12%. This means that 16.12% of customers have churned.
+
+
+
+
+
+
