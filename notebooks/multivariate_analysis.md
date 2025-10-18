@@ -90,3 +90,15 @@ glimpse(data)
     ## $ YearsInCurrentRole       <int> 2, 7, 2, 10, 3, 7, 2, 0, 1, 2, 12, 2, 5, 0, 6…
     ## $ YearsSinceLastPromotion  <int> 0, 4, 2, 5, 1, 1, 0, 0, 0, 7, 6, 2, 1, 0, 5, …
     ## $ YearsWithCurrManager     <int> 3, 9, 2, 7, 3, 7, 3, 0, 0, 7, 14, 2, 6, 0, 7,…
+
+``` r
+ggplot(data, aes(x = MonthlyRate, y = MonthlyIncome, color = Attrition)) + 
+  geom_point(size = 3, alpha = 0.7) +
+  theme_economist() +
+  labs(title = "Work Life Balance vs Job Satisfaction by Attrition Status",
+       x = "Work Life Balance",
+       y = "Job Satisfaction") +
+  scale_color_manual(values = c("No" = "blue", "Yes" = "red"))
+```
+
+![](multivariate_analysis_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
