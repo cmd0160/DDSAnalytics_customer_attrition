@@ -187,3 +187,80 @@ attrition, indicating stronger role alignment and job stability. These
 insights suggest that retention efforts may need to focus on improving
 engagement, career development, and growth opportunities for technically
 trained employees in high-turnover sales positions.
+
+------------------------------------------------------------------------
+
+### Income Distribution for Sales Employees by Attrition
+
+Question:
+
+Do income levels differ significantly between employees who stay and
+those who leave within the Sales department?
+
+``` r
+ggplot(data %>% filter(Department == "Sales"),
+       aes(x = Attrition, y = MonthlyIncome, fill = Attrition)) +
+  # Creating notched boxplots to visualize distribution and median confidence intervals
+  geom_boxplot(
+    color = "black",
+    outlier.shape = 16,
+    outlier.color = "black",
+    outlier.size = 2,
+    notch = TRUE,
+    notchwidth = 0.9
+  ) +
+  scale_fill_manual(
+    values = c("Yes" = "#b2182b", "No" = "#2166ac")
+  ) +
+  # Format y-axis values as dollar amounts
+  scale_y_continuous(labels = dollar_format(prefix = "$", big.mark = ",")) +
+
+  # Add median labels to each box for clarity
+  stat_summary(
+    fun = median,
+    geom = "label",
+    aes(label = paste0("Median: $", format(round(..y.., 0), big.mark = ","))),
+    color = "black",
+    fill = "white",
+    fontface = "bold",
+    size = 4,
+    label.size = 0.1,
+    vjust = -0.5
+  ) +
+
+  theme_economist() +
+  labs(
+    title = "Income Distribution for Sales Employees by Attrition",
+    x = "Attrition",
+    y = "Monthly Income"
+  ) +
+  theme(
+    plot.title = element_text(
+      hjust = 0.5,
+      face = "bold",
+      margin = margin(b = 10)
+    ),
+    legend.position = "none",
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+  )
+```
+
+    ## Warning: The dot-dot notation (`..y..`) was deprecated in ggplot2 3.4.0.
+    ## ℹ Please use `after_stat(y)` instead.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
+
+![](multivariate_analysis_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+This boxplot provides a clear comparison of monthly income between Sales
+employees who stayed and those who left the company. The median income
+for employees who did not leave is approximately \$5,900, whereas those
+who left have a notably lower median of \$4,700. These findings
+reinforce an idea that lower compensation may be a significant driver of
+attrition in the Sales department, highlighting an opportunity for Frito
+Lay to improve retention through targeted pay adjustments or incentive
+structures.
+
+------------------------------------------------------------------------
