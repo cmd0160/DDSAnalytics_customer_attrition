@@ -31,6 +31,21 @@ library(caret)
 ``` r
 library(e1071)
 library(class)
+library(scales)
+```
+
+    ## 
+    ## Attaching package: 'scales'
+    ## 
+    ## The following object is masked from 'package:purrr':
+    ## 
+    ##     discard
+    ## 
+    ## The following object is masked from 'package:readr':
+    ## 
+    ##     col_factor
+
+``` r
 library(ggthemes)
 theme_set(theme_economist())
 title_format <- function(x) labs(title = x, x = NULL, y = NULL)
@@ -69,7 +84,7 @@ ggplot(df1, aes(Department, OverTime, fill = attr_rate)) +
   scale_fill_gradient(
     low = "#d8e6f3",
     high = "#b2182b",
-    labels = scales::percent
+    labels = percent
   ) +
   labs(
     title = "Attrition Rate by Department and OverTime",
