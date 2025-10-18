@@ -234,7 +234,7 @@ ggplot(data = data, mapping = aes(x = Attrition))  +
     ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
     ## generated.
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 # ————- Target Analysis —————
 
@@ -356,7 +356,7 @@ ggplot(data, aes(x = Age)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 There is a slight right skew to the Age feature with most of the
 employees being around the age of 30-40.
 
@@ -380,7 +380,7 @@ ggplot(data, aes(x = BusinessTravel)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 The majority of employees do not travel for business purposes.
 
@@ -398,7 +398,7 @@ ggplot(data, aes(x = DailyRate)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 The Daily Rate feature appears to be uniformly distributed between 100
 and 1500. No particulary useful distribution insights can be derived.
@@ -423,7 +423,7 @@ ggplot(data, aes(x = Department)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 The majority of employees work in the Research & Development department,
 followed by Sales and then Human Resources.
@@ -442,7 +442,7 @@ ggplot(data, aes(x = DistanceFromHome)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 There is a heavy concentration of employees living within 10 miles of
 work, with a gradual decrease in number of employees as distance
@@ -468,7 +468,7 @@ ggplot(data, aes(x = Education)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 Education has a normal distribution with the highest concentration of
 employees centering around level 3.
@@ -494,7 +494,7 @@ ggplot(data, aes(x = EducationField)) +
   )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 The majority of employees have a background in Life Sciences, followed
 by Medical and then Marketing.
@@ -519,7 +519,7 @@ ggplot(data, aes(x = EnvironmentSatisfaction)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 The environmental satisfaction seems to show that more employees are
 satisfied than not.
@@ -544,7 +544,7 @@ ggplot(data, aes(x = Gender)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 The gender distribution is showing that there are more Males than
 females at the company.
@@ -563,7 +563,7 @@ ggplot(data, aes(x = HourlyRate)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 No useful distribution insights can be derived from the Hourly Rate
 feature.
@@ -588,7 +588,7 @@ ggplot(data, aes(x = JobInvolvement)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 The job involvement appears to have a the majority of level 3
 involvement, with level 4 being the least common.
@@ -613,7 +613,7 @@ ggplot(data, aes(x = JobLevel)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 The job level distribution shows that the majority of employees are at
 level 1, with a decreasing number of employees as job level increases.
@@ -638,7 +638,7 @@ ggplot(data, aes(x = MaritalStatus)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 Most employees are single.
 
@@ -656,7 +656,7 @@ ggplot(data, aes(x = MonthlyIncome)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
 The Monthly Income feature appears to be right skewed with most
 employees earning between \$2000 and \$8000 per month.
@@ -675,7 +675,7 @@ ggplot(data, aes(x = NumCompaniesWorked)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
 
 The number of companies worked feature appears to be right skewed with
 most employees having worked at 1-3 companies prior to their current
@@ -701,7 +701,7 @@ ggplot(data, aes(x = OverTime)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 Majority of employees do not work overtime.
 
@@ -719,7 +719,7 @@ ggplot(data, aes(x = PercentSalaryHike)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
 
 Percent Salary hike is demonstrating a heavy right skew with most
 employees receiving between 10-15% salary hikes.
@@ -744,7 +744,7 @@ ggplot(data, aes(x = PerformanceRating)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
 
 Majority of employees have a performance rating of 3, with very few
 employees receiving a rating of 4.
@@ -769,7 +769,7 @@ ggplot(data, aes(x = RelationshipSatisfaction)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
 
 Majority of employees have a relationship satisfaction level of 3 or 4,
 with level 2 being the least common by a slim margin.
@@ -794,7 +794,7 @@ ggplot(data, aes(x = StandardHours)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
 
 All employees have standard hours of 80.
 
@@ -818,7 +818,7 @@ ggplot(data, aes(x = StockOptionLevel)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
 
 Majority of employees have a stock option level of 0, with very few
 employees having a stock option level of 3.
@@ -837,7 +837,7 @@ ggplot(data, aes(x = TotalWorkingYears)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
 
 The Total Working Years feature appears to be right skewed with most
 employees having between 0-10 years of total working experience.
@@ -862,7 +862,7 @@ ggplot(data, aes(x = TrainingTimesLastYear)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
 
 Majority of employees have undergone training 2-3 times in the last
 year.
@@ -887,7 +887,7 @@ ggplot(data, aes(x = WorkLifeBalance)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
 
 Majority of employees have a work life balance level of 3, with level 1
 being the least common.
@@ -906,7 +906,7 @@ ggplot(data, aes(x = YearsAtCompany)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
 
 The Years At Company feature appears to be right skewed with most
 employees having between 0-10 years at the company.
@@ -925,7 +925,7 @@ ggplot(data, aes(x = YearsInCurrentRole)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
 
 The Years In Current Role feature appears to be right skewed with most
 employees having between 0-7 years in their current role.
@@ -944,7 +944,7 @@ ggplot(data, aes(x = YearsSinceLastPromotion)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
 
 The Years Since Last Promotion feature appears to be right skewed with
 most employees having between 0-3 years since their last promotion.
@@ -963,7 +963,7 @@ ggplot(data, aes(x = YearsWithCurrManager)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
+![](univariate_analysis_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
 
 The Years With Current Manager feature appears to be right skewed with
 most employees having between 0-7 years with their current manager.
