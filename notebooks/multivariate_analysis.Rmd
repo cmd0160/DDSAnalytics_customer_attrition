@@ -11,26 +11,49 @@ library(caret)
 library(e1071)
 library(class)
 library(ggthemes)
+theme_set(theme_economist())
+title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 ```
 
-# ------------ Data Loading -------------
+## ------------ Data Loading -------------
 ```{r}
 getwd()
 data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
-# ------------ Multivariate Analysis -------------
+## ------------ Multivariate Analysis -------------
 
-```{r}
-glimpse(data)
-```
-```{r}
-ggplot(data, aes(x = MonthlyRate, y = MonthlyIncome, color = Attrition)) + 
-  geom_point(size = 3, alpha = 0.7) +
-  theme_economist() +
-  labs(title = "Work Life Balance vs Job Satisfaction by Attrition Status",
-       x = "Work Life Balance",
-       y = "Job Satisfaction") +
-  scale_color_manual(values = c("No" = "blue", "Yes" = "red"))
-```
+Multivariate analysis explores how multiple factors interact to influence employee attrition. By examining combinations of demographic, compensation, and work-related variables together, it reveals deeper relationships—such as how overtime, tenure, and income jointly affect turnover—providing a more complete view of the underlying drivers of employee loss.
 
+### Attrition by Department and OverTime
+```{r}
+df1 <- data %>%
+  group_by(Department, OverTime) %>%
+  summarise(attr_rate = mean(Attrition == "Yes"), .groups = "drop")
+
+ggplot(df1, aes(Department, OverTime, fill = attr_rate)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(
+    low = "#d8e6f3",
+    high = "#b2182b",
+    labels = scales::percent
+  ) +
+  labs(
+    title = "Attrition Rate by Department and OverTime",
+    fill = "Attrition Rate Percentage"
+  ) +
+  theme(
+    plot.title = element_text(
+      hjust = 0.5,
+      face = "bold", 
+      margin = margin(b = 10)  
+    ),
+    legend.title = element_text(size = 9, face = "bold"),
+    legend.text = element_text(size = 8),
+    legend.key.width = unit(1, "cm"),
+    legend.key.height = unit(0.4, "cm"),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12)),
+  )
+```
+This heatmap illustrates how attrition rates vary across departments and overtime status. The darkest red shading represents the highest attrition percentages. Employees in the Sales department who work overtime experience the highest attrition rate, exceeding 40%. In contrast, Research & Development employees with no overtime show the lowest attrition, suggesting that work-life balance plays a key role in retention. Across all departments, overtime consistently correlates with higher attrition, but the impact is most pronounced in Sales—indicating that targeted workload management and incentive strategies in Sales could potentially yield meaningful reductions in turnover.

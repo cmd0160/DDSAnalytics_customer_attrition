@@ -32,9 +32,11 @@ library(caret)
 library(e1071)
 library(class)
 library(ggthemes)
+theme_set(theme_economist())
+title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 ```
 
-# ———— Data Loading ————-
+## ———— Data Loading ————-
 
 ``` r
 getwd()
@@ -46,59 +48,56 @@ getwd()
 data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
-# ———— Multivariate Analysis ————-
+## ———— Multivariate Analysis ————-
+
+Multivariate analysis explores how multiple factors interact to
+influence employee attrition. By examining combinations of demographic,
+compensation, and work-related variables together, it reveals deeper
+relationships—such as how overtime, tenure, and income jointly affect
+turnover—providing a more complete view of the underlying drivers of
+employee loss.
+
+### Attrition by Department and OverTime
 
 ``` r
-glimpse(data)
+df1 <- data %>%
+  group_by(Department, OverTime) %>%
+  summarise(attr_rate = mean(Attrition == "Yes"), .groups = "drop")
+
+ggplot(df1, aes(Department, OverTime, fill = attr_rate)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(
+    low = "#d8e6f3",
+    high = "#b2182b",
+    labels = scales::percent
+  ) +
+  labs(
+    title = "Attrition Rate by Department and OverTime",
+    fill = "Attrition Rate Percentage"
+  ) +
+  theme(
+    plot.title = element_text(
+      hjust = 0.5,
+      face = "bold", 
+      margin = margin(b = 10)  
+    ),
+    legend.title = element_text(size = 9, face = "bold"),
+    legend.text = element_text(size = 8),
+    legend.key.width = unit(1, "cm"),
+    legend.key.height = unit(0.4, "cm"),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12)),
+  )
 ```
 
-    ## Rows: 870
-    ## Columns: 36
-    ## $ ID                       <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14…
-    ## $ Age                      <int> 32, 40, 35, 32, 24, 27, 41, 37, 34, 34, 43, 2…
-    ## $ Attrition                <chr> "No", "No", "No", "No", "No", "No", "No", "No…
-    ## $ BusinessTravel           <chr> "Travel_Rarely", "Travel_Rarely", "Travel_Fre…
-    ## $ DailyRate                <int> 117, 1308, 200, 801, 567, 294, 1283, 309, 133…
-    ## $ Department               <chr> "Sales", "Research & Development", "Research …
-    ## $ DistanceFromHome         <int> 13, 14, 18, 1, 2, 10, 5, 10, 10, 10, 6, 1, 7,…
-    ## $ Education                <int> 4, 3, 2, 4, 1, 2, 5, 4, 4, 4, 3, 2, 3, 1, 2, …
-    ## $ EducationField           <chr> "Life Sciences", "Medical", "Life Sciences", …
-    ## $ EmployeeCount            <int> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-    ## $ EmployeeNumber           <int> 859, 1128, 1412, 2016, 1646, 733, 1448, 1105,…
-    ## $ EnvironmentSatisfaction  <int> 2, 3, 3, 3, 1, 4, 2, 4, 3, 4, 1, 3, 3, 3, 4, …
-    ## $ Gender                   <chr> "Male", "Male", "Male", "Female", "Female", "…
-    ## $ HourlyRate               <int> 73, 44, 60, 48, 32, 32, 90, 88, 87, 92, 81, 4…
-    ## $ JobInvolvement           <int> 3, 2, 3, 3, 3, 3, 4, 2, 3, 2, 2, 3, 3, 3, 3, …
-    ## $ JobLevel                 <int> 2, 5, 3, 3, 1, 3, 1, 2, 1, 2, 5, 1, 3, 1, 1, …
-    ## $ JobRole                  <chr> "Sales Executive", "Research Director", "Manu…
-    ## $ JobSatisfaction          <int> 4, 3, 4, 4, 4, 1, 3, 4, 3, 3, 3, 4, 3, 2, 1, …
-    ## $ MaritalStatus            <chr> "Divorced", "Single", "Single", "Married", "S…
-    ## $ MonthlyIncome            <int> 4403, 19626, 9362, 10422, 3760, 8793, 2127, 6…
-    ## $ MonthlyRate              <int> 9250, 17544, 19944, 24032, 17218, 4809, 5561,…
-    ## $ NumCompaniesWorked       <int> 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 7, 1, 3, 1, 6, …
-    ## $ Over18                   <chr> "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", "Y", …
-    ## $ OverTime                 <chr> "No", "No", "No", "No", "Yes", "No", "Yes", "…
-    ## $ PercentSalaryHike        <int> 11, 14, 11, 19, 13, 21, 12, 14, 19, 14, 13, 1…
-    ## $ PerformanceRating        <int> 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 4, 3, 3, …
-    ## $ RelationshipSatisfaction <int> 3, 1, 3, 3, 3, 3, 1, 3, 4, 2, 4, 2, 2, 1, 3, …
-    ## $ StandardHours            <int> 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 8…
-    ## $ StockOptionLevel         <int> 1, 0, 0, 2, 0, 2, 0, 3, 1, 1, 0, 1, 0, 1, 0, …
-    ## $ TotalWorkingYears        <int> 8, 21, 10, 14, 6, 9, 7, 8, 1, 8, 21, 3, 17, 1…
-    ## $ TrainingTimesLastYear    <int> 3, 2, 2, 3, 2, 4, 5, 5, 2, 3, 2, 2, 3, 3, 3, …
-    ## $ WorkLifeBalance          <int> 2, 4, 3, 3, 3, 2, 2, 3, 3, 2, 3, 3, 4, 3, 4, …
-    ## $ YearsAtCompany           <int> 5, 20, 2, 14, 6, 9, 4, 1, 1, 8, 16, 3, 8, 1, …
-    ## $ YearsInCurrentRole       <int> 2, 7, 2, 10, 3, 7, 2, 0, 1, 2, 12, 2, 5, 0, 6…
-    ## $ YearsSinceLastPromotion  <int> 0, 4, 2, 5, 1, 1, 0, 0, 0, 7, 6, 2, 1, 0, 5, …
-    ## $ YearsWithCurrManager     <int> 3, 9, 2, 7, 3, 7, 3, 0, 0, 7, 14, 2, 6, 0, 7,…
-
-``` r
-ggplot(data, aes(x = MonthlyRate, y = MonthlyIncome, color = Attrition)) + 
-  geom_point(size = 3, alpha = 0.7) +
-  theme_economist() +
-  labs(title = "Work Life Balance vs Job Satisfaction by Attrition Status",
-       x = "Work Life Balance",
-       y = "Job Satisfaction") +
-  scale_color_manual(values = c("No" = "blue", "Yes" = "red"))
-```
-
-![](multivariate_analysis_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](multivariate_analysis_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+This heatmap illustrates how attrition rates vary across departments and
+overtime status. The darkest red shading represents the highest
+attrition percentages. Employees in the Sales department who work
+overtime experience the highest attrition rate, exceeding 40%. In
+contrast, Research & Development employees with no overtime show the
+lowest attrition, suggesting that work-life balance plays a key role in
+retention. Across all departments, overtime consistently correlates with
+higher attrition, but the impact is most pronounced in Sales—indicating
+that targeted workload management and incentive strategies in Sales
+could potentially yield meaningful reductions in turnover.
