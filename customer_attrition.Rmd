@@ -1,8 +1,12 @@
 ---
 title: "Frito Lay: Customer Attrition"
-output:
-  html_document:
-    keep_md: true
+output: 
+  github_document:
+    html_preview: false
+# optional:
+# knitr:
+#   opts_chunk: 
+#     fig.path: "customer_attrition_files/figure-gfm-"
 ---
 
 ```{r}
