@@ -1,0 +1,34 @@
+# --- R and RStudio ---
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+
+# --- Generated outputs ---
+*.html
+*.nb.html
+*.pdf
+*.docx
+*.pptx
+*.key
+*.zip
+
+# --- Knitted folders and caches ---
+*_files/
+*_cache/
+_cache/
+cache/
+
+# --- OS/Editor files ---
+.DS_Store
+Thumbs.db
+
+# --- Virtual environments or temporary files ---
+venv/
+.venv/
+tmp/
+
+# --- Exceptions: keep these for GitHub rendering ---
+!notebooks/customer_attrition.md
+!notebooks/customer_attrition_files/
