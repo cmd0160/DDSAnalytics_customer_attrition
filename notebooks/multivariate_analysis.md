@@ -130,7 +130,9 @@ could potentially yield meaningful reductions in turnover.
 
 ### Attrition by Job Role and Education Field
 
-Question:How does the attrition rate vary across different Job Roles and
+Question:
+
+How does the attrition rate vary across different Job Roles and
 Education Fields?
 
 ``` r

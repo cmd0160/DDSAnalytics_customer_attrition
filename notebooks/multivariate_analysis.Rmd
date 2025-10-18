@@ -74,7 +74,9 @@ This heatmap illustrates how attrition rates vary across departments and overtim
 
 ### Attrition by Job Role and Education Field
 
-Question:How does the attrition rate vary across different Job Roles and Education Fields?
+Question:
+
+How does the attrition rate vary across different Job Roles and Education Fields?
 
 ```{r}
 # Calculating attrition rate by Job Role and Education Field
