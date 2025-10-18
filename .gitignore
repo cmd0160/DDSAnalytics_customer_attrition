@@ -15,7 +15,7 @@
 *.zip
 
 # --- Knitted folders and caches ---
-*_files/
+!notebooks/*_files/
 *_cache/
 _cache/
 cache/
