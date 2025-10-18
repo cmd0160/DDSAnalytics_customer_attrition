@@ -74,32 +74,42 @@ employee loss.
 
 ### Attrition by Department and OverTime
 
+Question:
+
+How does the Attrition rate vary across different Departments and
+OverTime status? The following heatmap visualizes this relationship:
+
 ``` r
+# Calculating attrition rate by Department and OverTime group
 df1 <- data %>%
   group_by(Department, OverTime) %>%
   summarise(attr_rate = mean(Attrition == "Yes"), .groups = "drop")
 
+# Creating a heatmap to visualize attrition patterns by Department and OverTime
 ggplot(df1, aes(Department, OverTime, fill = attr_rate)) +
-  geom_tile(color = "white") +
+  geom_tile(color = "white") +  
   scale_fill_gradient(
-    low = "#d8e6f3",
-    high = "#b2182b",
-    labels = percent
+    low = "#d8e6f3", 
+    high = "#b2182b", 
+    labels = percent  
   ) +
   labs(
     title = "Attrition Rate by Department and OverTime",
     fill = "Attrition Rate Percentage"
   ) +
   theme(
+    # Center and bold the plot title with slight spacing below
     plot.title = element_text(
       hjust = 0.5,
       face = "bold", 
-      margin = margin(b = 10)  
+      margin = margin(b = 10)
     ),
+    # Formating legend text and size
     legend.title = element_text(size = 9, face = "bold"),
     legend.text = element_text(size = 8),
     legend.key.width = unit(1, "cm"),
     legend.key.height = unit(0.4, "cm"),
+    # Adding padding around axis titles for readability
     axis.title.x = element_text(margin = margin(t = 12)),
     axis.title.y = element_text(margin = margin(r = 12)),
   )
