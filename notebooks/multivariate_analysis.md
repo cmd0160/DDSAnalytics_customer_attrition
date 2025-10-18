@@ -91,6 +91,7 @@ ggplot(df1, aes(Department, OverTime, fill = attr_rate)) +
 ```
 
 ![](multivariate_analysis_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
 This heatmap illustrates how attrition rates vary across departments and
 overtime status. The darkest red shading represents the highest
 attrition percentages. Employees in the Sales department who work

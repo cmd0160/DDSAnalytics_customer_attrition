@@ -56,4 +56,5 @@ ggplot(df1, aes(Department, OverTime, fill = attr_rate)) +
     axis.title.y = element_text(margin = margin(r = 12)),
   )
 ```
+
 This heatmap illustrates how attrition rates vary across departments and overtime status. The darkest red shading represents the highest attrition percentages. Employees in the Sales department who work overtime experience the highest attrition rate, exceeding 40%. In contrast, Research & Development employees with no overtime show the lowest attrition, suggesting that work-life balance plays a key role in retention. Across all departments, overtime consistently correlates with higher attrition, but the impact is most pronounced in Sales—indicating that targeted workload management and incentive strategies in Sales could potentially yield meaningful reductions in turnover.
