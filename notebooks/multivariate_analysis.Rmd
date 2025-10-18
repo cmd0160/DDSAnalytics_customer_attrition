@@ -1,0 +1,27 @@
+---
+title: "Frito Lay: Customer Attrition - Multivariate Analysis"
+output: 
+  github_document:
+    html_preview: false
+---
+
+```{r}
+library(tidyverse)
+library(caret)
+library(e1071)
+library(class)
+library(ggthemes)
+```
+
+# ------------ Data Loading -------------
+```{r}
+getwd()
+data <- read.csv("../data/CaseStudy1-data.csv")
+```
+
+# ------------ Multivariate Analysis -------------
+
+```{r}
+glimpse(data)
+```
+
