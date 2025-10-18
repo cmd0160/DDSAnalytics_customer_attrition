@@ -15,7 +15,7 @@ library(ggthemes)
 # ------------ Data Loading -------------
 ```{r}
 getwd()
-data <- read.csv("Downloads/CaseStudy1-data.csv")
+data <- read.csv("CaseStudy1-data.csv")
 ```
 
 # ------------ Data Quality, Structure & Sanity Checks -------------
@@ -50,7 +50,20 @@ colnames(data)
 ```
 
 ```{r}
-ggplot(data = data, mapping = aes(x = Attrition))  + geom_bar() + ggtitle("Attrition Distribution") + theme_economist()
+#Checking out the Attrition Distribution
+ggplot(data = data, mapping = aes(x = Attrition))  + 
+  geom_bar() + 
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.5,
+    size = 4,
+    color = "black"
+  ) +
+  theme_economist() +
+  labs(
+    title = "Total Attrition Distribution"
+      )
 ```
 
 
@@ -68,14 +81,567 @@ table(data$Attrition)
 prop.table(table(data$Attrition)) * 100
 ```
 
-Frito Lays' Attrition rate is 16.12%. This means that 16.12% of customers have churned.
+Frito Lays' Attrition rate is 16.09%. This means that 16.09% of customers have churned.
 
 
 ```{r}
+str(data)
+```
+
+```{r}
+# Unique values in job_level
+unique(data$JobLevel)
+```
+
+```{r}
+null_summary <- sapply(data, function(x) sum(is.na(x)))
+null_summary
+```
+
+# Univariate Analysis
+# Explore each feature individually to understand its distribution and behavior
+
+```{r}
+glimpse(data)
+```
+# Age Distribution
+```{r}
+ggplot(data, aes(x = Age)) + 
+  geom_histogram() +
+  geom_density(color = "darkred", size = 1.2) +
+  theme_economist() +
+  labs(title = "Age Distribution", x = "Age", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+There is a slight right skew to the Age feature with most of the employees being around the age of 30-40.
+
+# Business Travel Distribution
+```{r}
+ggplot(data, aes(x = BusinessTravel)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Business Travel Distribution", x = "Business Travel", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
 
 ```
 
+The majority of employees do not travel for business purposes.
 
+# DailyRate Distribution
 
+```{r}
+ggplot(data, aes(x = DailyRate)) + 
+  geom_histogram(binwidth = 10) +
+  theme_economist() +
+  labs(title = "Daily Rate Distribution", x = "Daily Rate", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )))
 
+summary(data$DailyRate)
+```
+
+The Daily Rate feature appears to be uniformly distributed between 100 and 1500. No particulary useful distribution insights can be derived.
+
+# Department Distribution
+```{r}
+ggplot(data, aes(x = Department)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Department Distribution", x = "Department", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+The majority of employees work in the Research & Development department, followed by Sales and then Human Resources.
+
+# DistanceFromHome Distribution
+```{r}
+ggplot(data, aes(x = DistanceFromHome)) + 
+  geom_histogram(binwidth = 1) +
+  theme_economist() +
+  labs(title = "Distance From Home Distribution", x = "Distance From Home (miles)", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+There is a heavy concentration of employees living within 10 miles of work, with a gradual decrease in number of employees as distance increases.
+
+# Education Distribution
+```{r}
+ggplot(data, aes(x = Education)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Education Distribution", x = "Education Level", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+ 
+Education has a normal distribution with the highest concentration of employees centering around level 3.
+
+# EducationField Distribution
+
+```{r}
+ggplot(data, aes(x = EducationField)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +
+  theme_economist() +
+  labs(title = "Education Field Distribution", x = "Education Field", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x  = element_text(margin = margin(t = 12)),
+    axis.title.y  = element_text(margin = margin(r = 12)),
+    axis.text.x   = element_text(angle = 45, hjust = 1, vjust = 1)   # 👈 rotates labels
+  )
+
+```
+
+The majority of employees have a background in Life Sciences, followed by Medical and then Marketing.
+
+# EnvironmentalSatisfaction Distribution
+
+```{r}
+ggplot(data, aes(x = EnvironmentSatisfaction)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Environmental Satisfaction Distribution", x = "Environmental Satisfaction Level", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+The environmental satisfaction seems to show that more employees are satisfied than not.
+
+# Gender Distribution
+
+```{r}
+ggplot(data, aes(x = Gender)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Gender Distribution", x = "Gender", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+The gender distribution is showing that there are more Males than females at the company.
+
+# HourlyRate Distribution
+
+```{r}
+ggplot(data, aes(x = HourlyRate)) + 
+  geom_histogram(binwidth = 1) +
+  theme_economist() +
+  labs(title = "Hourly Rate Distribution", x = "Hourly Rate", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+No useful distribution insights can be derived from the Hourly Rate feature.
+
+# JobInvolvement Distribution
+```{r}
+ggplot(data, aes(x = JobInvolvement)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Job Involvement Distribution", x = "Job Involvement Level", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+The job involvement appears to have a the majority of level 3 involvement, with level 4 being the least common.
+
+# JobLevel Distribution
+```{r}
+ggplot(data, aes(x = JobLevel)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Job Level Distribution", x = "Job Level", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+The job level distribution shows that the majority of employees are at level 1, with a decreasing number of employees as job level increases.
+
+# MaritalStatus Distribution
+```{r}
+ggplot(data, aes(x = MaritalStatus)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Marital Status Distribution", x = "Marital Status", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+Most employees are single.
+
+# MonthlyIncome Distribution
+```{r}
+ggplot(data, aes(x = MonthlyIncome)) + 
+  geom_histogram(binwidth = 500) +
+  theme_economist() +
+  labs(title = "Monthly Income Distribution", x = "Monthly Income", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+The Monthly Income feature appears to be right skewed with most employees earning between $2000 and $8000 per month.
+
+# NumCompaniesWorked Distribution
+```{r}
+ggplot(data, aes(x = NumCompaniesWorked)) + 
+  geom_histogram(binwidth = .8) +
+  theme_economist() +
+  labs(title = "Number of Companies Worked Distribution", x = "Number of Companies Worked", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+The number of companies worked feature appears to be right skewed with most employees having worked at 1-3 companies prior to their current employment.
+
+# OverTime Distribution
+```{r}
+ggplot(data, aes(x = OverTime)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "OverTime Distribution", x = "OverTime", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+Majority of employees do not work overtime.
+
+# PercentSalaryHike Distribution
+```{r}
+ggplot(data, aes(x = PercentSalaryHike)) + 
+  geom_histogram(binwidth = 1) +
+  theme_economist() +
+  labs(title = "Percent Salary Hike Distribution", x = "Percent Salary Hike", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+Percent Salary hike is demonstrating a heavy right skew with most employees receiving between 10-15% salary hikes.
+
+# PerformanceRating Distribution
+```{r}
+ggplot(data, aes(x = PerformanceRating)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Performance Rating Distribution", x = "Performance Rating", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+
+```
+
+Majority of employees have a performance rating of 3, with very few employees receiving a rating of 4.
+
+# RelationshipSatisfaction Distribution
+```{r}
+ggplot(data, aes(x = RelationshipSatisfaction)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Relationship Satisfaction Distribution", x = "Relationship Satisfaction Level", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+Majority of employees have a relationship satisfaction level of 3 or 4, with level 2 being the least common by a slim margin.
+
+# StandardHours Distribution
+```{r}
+ggplot(data, aes(x = StandardHours)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Standard Hours Distribution", x = "Standard Hours", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+All employees have standard hours of 80.
+
+# StockOptionLevel Distribution
+```{r}
+ggplot(data, aes(x = StockOptionLevel)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Stock Option Level Distribution", x = "Stock Option Level", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+Majority of employees have a stock option level of 0, with very few employees having a stock option level of 3.
+
+# TotalWorkingYears Distribution
+```{r}
+ggplot(data, aes(x = TotalWorkingYears)) + 
+  geom_histogram(binwidth = 1) +
+  theme_economist() +
+  labs(title = "Total Working Years Distribution", x = "Total Working Years", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+The Total Working Years feature appears to be right skewed with most employees having between 0-10 years of total working experience.
+
+# TrainingTimesLastYear Distribution
+```{r}
+ggplot(data, aes(x = TrainingTimesLastYear)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Training Times Last Year Distribution", x = "Training Times Last Year", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+Majority of employees have undergone training 2-3 times in the last year.
+
+# WorkLifeBalance Distribution
+```{r}
+ggplot(data, aes(x = WorkLifeBalance)) +
+  geom_bar() +
+  geom_text(
+    stat = "count",
+    aes(label = ..count..),
+    vjust = -0.6, size = 4, color = "black"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.15))) +  
+  theme_economist() +
+  labs(title = "Work Life Balance Distribution", x = "Work Life Balance Level", y = "Count") +
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+```
+
+Majority of employees have a work life balance level of 3, with level 1 being the least common.
+
+# YearsAtCompany Distribution
+```{r}
+ggplot(data, aes(x = YearsAtCompany)) + 
+  geom_histogram(binwidth = 1) +
+  theme_economist() +
+  labs(title = "Years At Company Distribution", x = "Years At Company", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+The Years At Company feature appears to be right skewed with most employees having between 0-10 years at the company.
+
+# YearsInCurrentRole Distribution
+```{r}
+ggplot(data, aes(x = YearsInCurrentRole)) + 
+  geom_histogram(binwidth = 1) +
+  theme_economist() +
+  labs(title = "Years In Current Role Distribution", x = "Years In Current Role", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+The Years In Current Role feature appears to be right skewed with most employees having between 0-7 years in their current role.
+
+# YearsSinceLastPromotion Distribution
+```{r}
+ggplot(data, aes(x = YearsSinceLastPromotion)) + 
+  geom_histogram(binwidth = 1) +
+  theme_economist() +
+  labs(title = "Years Since Last Promotion Distribution", x = "Years Since Last Promotion", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+The Years Since Last Promotion feature appears to be right skewed with most employees having between 0-3 years since their last promotion.
+
+# YearsWithCurrManager Distribution
+```{r}
+ggplot(data, aes(x = YearsWithCurrManager)) + 
+  geom_histogram(binwidth = 1) +
+  theme_economist() +
+  labs(title = "Years With Current Manager Distribution", x = "Years With Current Manager", y = "Count") + 
+  theme(
+    plot.title = element_text(hjust = 0.5, margin = margin(b = 12)),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12))
+    )
+  )
+```
+
+The Years With Current Manager feature appears to be right skewed with most employees having between 0-7 years with their current manager.
+
+# ------------ Bivariate Analysis -------------
 
