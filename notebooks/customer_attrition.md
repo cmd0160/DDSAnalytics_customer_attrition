@@ -40,10 +40,10 @@ library(ggthemes)
 getwd()
 ```
 
-    ## [1] "/Users/cory/Projects/DDSAnalytics_customer_attrition"
+    ## [1] "/Users/cory/Projects/DDSAnalytics_customer_attrition/notebooks"
 
 ``` r
-data <- read.csv("CaseStudy1-data.csv")
+data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
 # ———— Data Quality, Structure & Sanity Checks ————-
@@ -241,85 +241,6 @@ ggplot(data = data, mapping = aes(x = Attrition))  +
 # Summarize the Attrition Rate
 
 ``` r
-# Gives me a input level breakdown of the target variable
-data$Attrition
-```
-
-    ##   [1] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ##  [13] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ##  [25] "No"  "No"  "No"  "Yes" "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ##  [37] "Yes" "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No" 
-    ##  [49] "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "Yes"
-    ##  [61] "Yes" "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ##  [73] "Yes" "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No" 
-    ##  [85] "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "Yes" "Yes" "No"  "No"  "No" 
-    ##  [97] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [109] "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [121] "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No" 
-    ## [133] "No"  "No"  "No"  "No"  "Yes" "No"  "Yes" "No"  "No"  "No"  "No"  "No" 
-    ## [145] "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No" 
-    ## [157] "No"  "Yes" "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "Yes" "No"  "No" 
-    ## [169] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "Yes" "No"  "No" 
-    ## [181] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [193] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "Yes"
-    ## [205] "No"  "No"  "Yes" "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [217] "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [229] "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "Yes" "No"  "No"  "No"  "No" 
-    ## [241] "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [253] "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "Yes" "Yes" "No" 
-    ## [265] "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [277] "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No" 
-    ## [289] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "Yes" "Yes"
-    ## [301] "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [313] "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [325] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "Yes" "No"  "No"  "Yes"
-    ## [337] "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [349] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No" 
-    ## [361] "No"  "Yes" "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [373] "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "Yes" "No"  "No"  "No"  "No" 
-    ## [385] "Yes" "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [397] "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [409] "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No" 
-    ## [421] "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No" 
-    ## [433] "Yes" "No"  "No"  "No"  "Yes" "No"  "Yes" "No"  "No"  "No"  "Yes" "No" 
-    ## [445] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No" 
-    ## [457] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No" 
-    ## [469] "Yes" "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [481] "No"  "No"  "No"  "No"  "Yes" "Yes" "Yes" "No"  "Yes" "No"  "No"  "No" 
-    ## [493] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "Yes" "Yes" "No" 
-    ## [505] "No"  "No"  "Yes" "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [517] "Yes" "No"  "No"  "Yes" "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [529] "No"  "Yes" "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "Yes" "No" 
-    ## [541] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [553] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [565] "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No" 
-    ## [577] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes"
-    ## [589] "No"  "No"  "No"  "Yes" "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "Yes"
-    ## [601] "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [613] "Yes" "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No" 
-    ## [625] "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [637] "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "Yes" "Yes" "No"  "Yes" "No" 
-    ## [649] "No"  "Yes" "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No" 
-    ## [661] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "Yes" "No"  "No"  "No" 
-    ## [673] "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [685] "No"  "No"  "Yes" "No"  "Yes" "No"  "No"  "Yes" "No"  "Yes" "No"  "No" 
-    ## [697] "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No" 
-    ## [709] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "Yes" "No" 
-    ## [721] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "Yes"
-    ## [733] "Yes" "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [745] "No"  "No"  "Yes" "No"  "No"  "No"  "Yes" "Yes" "No"  "Yes" "No"  "No" 
-    ## [757] "No"  "No"  "No"  "Yes" "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [769] "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "Yes"
-    ## [781] "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No" 
-    ## [793] "No"  "No"  "No"  "Yes" "No"  "Yes" "Yes" "No"  "No"  "No"  "No"  "Yes"
-    ## [805] "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [817] "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "Yes" "No"  "No"  "Yes" "No" 
-    ## [829] "No"  "No"  "No"  "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "No" 
-    ## [841] "Yes" "No"  "No"  "No"  "No"  "No"  "No"  "No"  "Yes" "No"  "Yes" "No" 
-    ## [853] "No"  "No"  "No"  "No"  "Yes" "No"  "No"  "Yes" "No"  "No"  "Yes" "No" 
-    ## [865] "No"  "No"  "No"  "No"  "No"  "No"
-
-``` r
 # Creates a count table (super useful!)
 table(data$Attrition)
 ```
@@ -340,54 +261,7 @@ prop.table(table(data$Attrition)) * 100
 Frito Lays’ Attrition rate is 16.09%. This means that 16.09% of
 customers have churned.
 
-``` r
-str(data)
-```
-
-    ## 'data.frame':    870 obs. of  36 variables:
-    ##  $ ID                      : int  1 2 3 4 5 6 7 8 9 10 ...
-    ##  $ Age                     : int  32 40 35 32 24 27 41 37 34 34 ...
-    ##  $ Attrition               : chr  "No" "No" "No" "No" ...
-    ##  $ BusinessTravel          : chr  "Travel_Rarely" "Travel_Rarely" "Travel_Frequently" "Travel_Rarely" ...
-    ##  $ DailyRate               : int  117 1308 200 801 567 294 1283 309 1333 653 ...
-    ##  $ Department              : chr  "Sales" "Research & Development" "Research & Development" "Sales" ...
-    ##  $ DistanceFromHome        : int  13 14 18 1 2 10 5 10 10 10 ...
-    ##  $ Education               : int  4 3 2 4 1 2 5 4 4 4 ...
-    ##  $ EducationField          : chr  "Life Sciences" "Medical" "Life Sciences" "Marketing" ...
-    ##  $ EmployeeCount           : int  1 1 1 1 1 1 1 1 1 1 ...
-    ##  $ EmployeeNumber          : int  859 1128 1412 2016 1646 733 1448 1105 1055 1597 ...
-    ##  $ EnvironmentSatisfaction : int  2 3 3 3 1 4 2 4 3 4 ...
-    ##  $ Gender                  : chr  "Male" "Male" "Male" "Female" ...
-    ##  $ HourlyRate              : int  73 44 60 48 32 32 90 88 87 92 ...
-    ##  $ JobInvolvement          : int  3 2 3 3 3 3 4 2 3 2 ...
-    ##  $ JobLevel                : int  2 5 3 3 1 3 1 2 1 2 ...
-    ##  $ JobRole                 : chr  "Sales Executive" "Research Director" "Manufacturing Director" "Sales Executive" ...
-    ##  $ JobSatisfaction         : int  4 3 4 4 4 1 3 4 3 3 ...
-    ##  $ MaritalStatus           : chr  "Divorced" "Single" "Single" "Married" ...
-    ##  $ MonthlyIncome           : int  4403 19626 9362 10422 3760 8793 2127 6694 2220 5063 ...
-    ##  $ MonthlyRate             : int  9250 17544 19944 24032 17218 4809 5561 24223 18410 15332 ...
-    ##  $ NumCompaniesWorked      : int  2 1 2 1 1 1 2 2 1 1 ...
-    ##  $ Over18                  : chr  "Y" "Y" "Y" "Y" ...
-    ##  $ OverTime                : chr  "No" "No" "No" "No" ...
-    ##  $ PercentSalaryHike       : int  11 14 11 19 13 21 12 14 19 14 ...
-    ##  $ PerformanceRating       : int  3 3 3 3 3 4 3 3 3 3 ...
-    ##  $ RelationshipSatisfaction: int  3 1 3 3 3 3 1 3 4 2 ...
-    ##  $ StandardHours           : int  80 80 80 80 80 80 80 80 80 80 ...
-    ##  $ StockOptionLevel        : int  1 0 0 2 0 2 0 3 1 1 ...
-    ##  $ TotalWorkingYears       : int  8 21 10 14 6 9 7 8 1 8 ...
-    ##  $ TrainingTimesLastYear   : int  3 2 2 3 2 4 5 5 2 3 ...
-    ##  $ WorkLifeBalance         : int  2 4 3 3 3 2 2 3 3 2 ...
-    ##  $ YearsAtCompany          : int  5 20 2 14 6 9 4 1 1 8 ...
-    ##  $ YearsInCurrentRole      : int  2 7 2 10 3 7 2 0 1 2 ...
-    ##  $ YearsSinceLastPromotion : int  0 4 2 5 1 1 0 0 0 7 ...
-    ##  $ YearsWithCurrManager    : int  3 9 2 7 3 7 3 0 0 7 ...
-
-``` r
-# Unique values in job_level
-unique(data$JobLevel)
-```
-
-    ## [1] 2 5 3 1 4
+# Null Value Analysis
 
 ``` r
 null_summary <- sapply(data, function(x) sum(is.na(x)))
@@ -419,7 +293,7 @@ null_summary
     ##       YearsInCurrentRole  YearsSinceLastPromotion     YearsWithCurrManager 
     ##                        0                        0                        0
 
-# Univariate Analysis
+# ————- Univariate Analysis —————
 
 # Explore each feature individually to understand its distribution and behavior
 
@@ -482,7 +356,7 @@ ggplot(data, aes(x = Age)) +
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 There is a slight right skew to the Age feature with most of the
 employees being around the age of 30-40.
 
@@ -506,7 +380,7 @@ ggplot(data, aes(x = BusinessTravel)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 The majority of employees do not travel for business purposes.
 
@@ -524,7 +398,7 @@ ggplot(data, aes(x = DailyRate)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 The Daily Rate feature appears to be uniformly distributed between 100
 and 1500. No particulary useful distribution insights can be derived.
@@ -549,7 +423,7 @@ ggplot(data, aes(x = Department)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
 The majority of employees work in the Research & Development department,
 followed by Sales and then Human Resources.
@@ -568,7 +442,7 @@ ggplot(data, aes(x = DistanceFromHome)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
 There is a heavy concentration of employees living within 10 miles of
 work, with a gradual decrease in number of employees as distance
@@ -594,7 +468,7 @@ ggplot(data, aes(x = Education)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 Education has a normal distribution with the highest concentration of
 employees centering around level 3.
@@ -620,7 +494,7 @@ ggplot(data, aes(x = EducationField)) +
   )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 The majority of employees have a background in Life Sciences, followed
 by Medical and then Marketing.
@@ -645,7 +519,7 @@ ggplot(data, aes(x = EnvironmentSatisfaction)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 The environmental satisfaction seems to show that more employees are
 satisfied than not.
@@ -670,7 +544,7 @@ ggplot(data, aes(x = Gender)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 The gender distribution is showing that there are more Males than
 females at the company.
@@ -689,7 +563,7 @@ ggplot(data, aes(x = HourlyRate)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
 No useful distribution insights can be derived from the Hourly Rate
 feature.
@@ -714,7 +588,7 @@ ggplot(data, aes(x = JobInvolvement)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 The job involvement appears to have a the majority of level 3
 involvement, with level 4 being the least common.
@@ -739,7 +613,7 @@ ggplot(data, aes(x = JobLevel)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 The job level distribution shows that the majority of employees are at
 level 1, with a decreasing number of employees as job level increases.
@@ -764,7 +638,7 @@ ggplot(data, aes(x = MaritalStatus)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 Most employees are single.
 
@@ -782,7 +656,7 @@ ggplot(data, aes(x = MonthlyIncome)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
 The Monthly Income feature appears to be right skewed with most
 employees earning between \$2000 and \$8000 per month.
@@ -801,7 +675,7 @@ ggplot(data, aes(x = NumCompaniesWorked)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
 
 The number of companies worked feature appears to be right skewed with
 most employees having worked at 1-3 companies prior to their current
@@ -827,7 +701,7 @@ ggplot(data, aes(x = OverTime)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 Majority of employees do not work overtime.
 
@@ -845,7 +719,7 @@ ggplot(data, aes(x = PercentSalaryHike)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-29-1.png)<!-- -->
 
 Percent Salary hike is demonstrating a heavy right skew with most
 employees receiving between 10-15% salary hikes.
@@ -870,7 +744,7 @@ ggplot(data, aes(x = PerformanceRating)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
 
 Majority of employees have a performance rating of 3, with very few
 employees receiving a rating of 4.
@@ -895,7 +769,7 @@ ggplot(data, aes(x = RelationshipSatisfaction)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
 
 Majority of employees have a relationship satisfaction level of 3 or 4,
 with level 2 being the least common by a slim margin.
@@ -920,7 +794,7 @@ ggplot(data, aes(x = StandardHours)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
 
 All employees have standard hours of 80.
 
@@ -944,7 +818,7 @@ ggplot(data, aes(x = StockOptionLevel)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
 
 Majority of employees have a stock option level of 0, with very few
 employees having a stock option level of 3.
@@ -963,7 +837,7 @@ ggplot(data, aes(x = TotalWorkingYears)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
 
 The Total Working Years feature appears to be right skewed with most
 employees having between 0-10 years of total working experience.
@@ -988,7 +862,7 @@ ggplot(data, aes(x = TrainingTimesLastYear)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
 
 Majority of employees have undergone training 2-3 times in the last
 year.
@@ -1013,7 +887,7 @@ ggplot(data, aes(x = WorkLifeBalance)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
 
 Majority of employees have a work life balance level of 3, with level 1
 being the least common.
@@ -1032,7 +906,7 @@ ggplot(data, aes(x = YearsAtCompany)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-37-1.png)<!-- -->
 
 The Years At Company feature appears to be right skewed with most
 employees having between 0-10 years at the company.
@@ -1051,7 +925,7 @@ ggplot(data, aes(x = YearsInCurrentRole)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
 
 The Years In Current Role feature appears to be right skewed with most
 employees having between 0-7 years in their current role.
@@ -1070,7 +944,7 @@ ggplot(data, aes(x = YearsSinceLastPromotion)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
 
 The Years Since Last Promotion feature appears to be right skewed with
 most employees having between 0-3 years since their last promotion.
@@ -1089,9 +963,9 @@ ggplot(data, aes(x = YearsWithCurrManager)) +
     )
 ```
 
-![](customer_attrition_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+![](customer_attrition_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
 
 The Years With Current Manager feature appears to be right skewed with
 most employees having between 0-7 years with their current manager.
 
-# ———— Bivariate Analysis ————-
+# ———— Multivariate Analysis ————-
