@@ -71,6 +71,10 @@ prop.table(table(data$Attrition)) * 100
 Frito Lays' Attrition rate is 16.12%. This means that 16.12% of customers have churned.
 
 
+```{r}
+
+```
+
 
 
 
