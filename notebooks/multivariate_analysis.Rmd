@@ -5,6 +5,15 @@ output:
     html_preview: false
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,       
+  warning = FALSE,   
+  message = FALSE    
+)
+```
+
+## ------------ Libraries -------------
 ```{r}
 library(tidyverse)
 library(caret)
@@ -18,7 +27,7 @@ title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 
 ## ------------ Data Loading -------------
 ```{r}
-getwd()
+# getwd()
 data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
@@ -103,7 +112,6 @@ ggplot(df2, aes(EducationField, JobRole, fill = attr_rate)) +
     title = "Attrition Rate by Job Role and Education Field",
     fill  = "Attrition Rate Percentage"
   ) +
-  theme_economist() +
   theme(
     # Tweaking plot appearance
     plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b = 10)),
@@ -136,7 +144,7 @@ Question:
 Do income levels differ significantly between employees who stay and those who leave within the Sales department?
 
 ```{r}
-
+# Boxplot to compare Monthly Income distribution for Sales employees by Attrition status
 ggplot(data %>% filter(Department == "Sales"),
        aes(x = Attrition, y = MonthlyIncome, fill = Attrition)) +
   # Creating notched boxplots to visualize distribution and median confidence intervals
@@ -166,8 +174,6 @@ ggplot(data %>% filter(Department == "Sales"),
     label.size = 0.1,
     vjust = -0.5
   ) +
-
-  theme_economist() +
   labs(
     title = "Income Distribution for Sales Employees by Attrition",
     x = "Attrition",

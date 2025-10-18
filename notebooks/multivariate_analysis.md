@@ -1,51 +1,14 @@
 Frito Lay: Customer Attrition - Multivariate Analysis
 ================
 
+## ———— Libraries ————-
+
 ``` r
 library(tidyverse)
-```
-
-    ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-    ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-    ## ✔ forcats   1.0.0     ✔ stringr   1.5.2
-    ## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
-    ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-    ## ✔ purrr     1.1.0     
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-
-``` r
 library(caret)
-```
-
-    ## Loading required package: lattice
-    ## 
-    ## Attaching package: 'caret'
-    ## 
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     lift
-
-``` r
 library(e1071)
 library(class)
 library(scales)
-```
-
-    ## 
-    ## Attaching package: 'scales'
-    ## 
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     discard
-    ## 
-    ## The following object is masked from 'package:readr':
-    ## 
-    ##     col_factor
-
-``` r
 library(ggthemes)
 theme_set(theme_economist())
 title_format <- function(x) labs(title = x, x = NULL, y = NULL)
@@ -54,12 +17,7 @@ title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 ## ———— Data Loading ————-
 
 ``` r
-getwd()
-```
-
-    ## [1] "/Users/cory/Projects/DDSAnalytics_customer_attrition/notebooks"
-
-``` r
+# getwd()
 data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
@@ -157,7 +115,6 @@ ggplot(df2, aes(EducationField, JobRole, fill = attr_rate)) +
     title = "Attrition Rate by Job Role and Education Field",
     fill  = "Attrition Rate Percentage"
   ) +
-  theme_economist() +
   theme(
     # Tweaking plot appearance
     plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b = 10)),
@@ -198,6 +155,7 @@ Do income levels differ significantly between employees who stay and
 those who leave within the Sales department?
 
 ``` r
+# Boxplot to compare Monthly Income distribution for Sales employees by Attrition status
 ggplot(data %>% filter(Department == "Sales"),
        aes(x = Attrition, y = MonthlyIncome, fill = Attrition)) +
   # Creating notched boxplots to visualize distribution and median confidence intervals
@@ -227,8 +185,6 @@ ggplot(data %>% filter(Department == "Sales"),
     label.size = 0.1,
     vjust = -0.5
   ) +
-
-  theme_economist() +
   labs(
     title = "Income Distribution for Sales Employees by Attrition",
     x = "Attrition",
@@ -245,12 +201,6 @@ ggplot(data %>% filter(Department == "Sales"),
     axis.title.y = element_text(margin = margin(r = 12))
   )
 ```
-
-    ## Warning: The dot-dot notation (`..y..`) was deprecated in ggplot2 3.4.0.
-    ## ℹ Please use `after_stat(y)` instead.
-    ## This warning is displayed once every 8 hours.
-    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-    ## generated.
 
 ![](multivariate_analysis_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
