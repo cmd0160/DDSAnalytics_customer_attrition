@@ -72,6 +72,8 @@ relationships—such as how overtime, tenure, and income jointly affect
 turnover—providing a more complete view of the underlying drivers of
 employee loss.
 
+------------------------------------------------------------------------
+
 ### Attrition by Department and OverTime
 
 Question:
@@ -127,6 +129,8 @@ retention. Across all departments, overtime consistently correlates with
 higher attrition, but the impact is most pronounced in Sales—indicating
 that targeted workload management and incentive strategies in Sales
 could potentially yield meaningful reductions in turnover.
+
+------------------------------------------------------------------------
 
 ### Attrition by Job Role and Education Field
 
