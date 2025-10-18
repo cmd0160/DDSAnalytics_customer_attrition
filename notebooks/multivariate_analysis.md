@@ -127,3 +127,57 @@ retention. Across all departments, overtime consistently correlates with
 higher attrition, but the impact is most pronounced in Sales—indicating
 that targeted workload management and incentive strategies in Sales
 could potentially yield meaningful reductions in turnover.
+
+### Attrition by Job Role and Education Field
+
+Question:How does the attrition rate vary across different Job Roles and
+Education Fields?
+
+``` r
+# Calculating attrition rate by Job Role and Education Field
+df2 <- data %>%
+  group_by(JobRole, EducationField) %>%
+  summarise(attr_rate = mean(Attrition == "Yes"), .groups = "drop")
+
+# Plotting a Heatmap to visualize 
+ggplot(df2, aes(EducationField, JobRole, fill = attr_rate)) +
+  geom_tile(color = "white") +   
+  scale_fill_gradient(
+    low  = "#d8e6f3",            
+    high = "#b2182b",            
+    labels = percent             
+  ) +
+  labs(
+    title = "Attrition Rate by Job Role and Education Field",
+    fill  = "Attrition Rate Percentage"
+  ) +
+  theme_economist() +
+  theme(
+    # Tweaking plot appearance
+    plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b = 10)),
+    legend.position = "top",
+    legend.justification = "center",
+    legend.title = element_text(size = 9, face = "bold"),
+    legend.text  = element_text(size = 8),
+    legend.key.width  = unit(1, "cm"),
+    legend.key.height = unit(0.4, "cm"),
+    # Improve x-axis label readability
+    axis.text.x  = element_text(angle = 45, hjust = 1, vjust = 1, size = 9),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12)),
+    # Balancing white space left/right (long y labels widen the left side)
+    plot.margin  = margin(t = 5, r = 75, b = 5, l = 5)
+  )
+```
+
+![](multivariate_analysis_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+This visualization highlights that attrition risk is not evenly
+distributed across job roles or educational backgrounds. Employees in
+sales-related roles—particularly Sales Representatives with Medical or
+Technical degrees—show the highest turnover rates. Conversely, employees
+in research and management positions display significantly lower
+attrition, indicating stronger role alignment and job stability. These
+insights suggest that retention efforts may need to focus on improving
+engagement, career development, and growth opportunities for technically
+trained employees in high-turnover sales positions.
