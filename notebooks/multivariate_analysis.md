@@ -21,6 +21,8 @@ title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
+------------------------------------------------------------------------
+
 ## ———— Multivariate Analysis ————-
 
 Multivariate analysis explores how multiple factors interact to
@@ -90,60 +92,79 @@ could potentially yield meaningful reductions in turnover.
 
 ------------------------------------------------------------------------
 
-### Attrition by Job Role and Education Field
+### Attrition Rate by Age for Sales Employees
 
 Question:
 
-How does the attrition rate vary across different Job Roles and
-Education Fields?
+How does the attrition rate vary by age among Sales department
+employees?
 
 ``` r
-# Calculating attrition rate by Job Role and Education Field
-df2 <- data %>%
-  group_by(JobRole, EducationField) %>%
+# Compute attrition rate by age for Sales employees only
+df_age_sales <- data %>%
+  filter(Department == "Sales") %>%
+  group_by(Age) %>%
   summarise(attr_rate = mean(Attrition == "Yes"), .groups = "drop")
-
-# Plotting a Heatmap to visualize 
-ggplot(df2, aes(EducationField, JobRole, fill = attr_rate)) +
-  geom_tile(color = "white") +   
-  scale_fill_gradient(
-    low  = "#d8e6f3",            
-    high = "#b2182b",            
-    labels = percent             
+# Plotting Attrition Rate by Age for Sales Employees
+ggplot(df_age_sales, aes(x = Age, y = attr_rate)) +
+  geom_line(color = "#2166ac", size = 1.1) +
+  geom_point(color = "#2166ac", size = 2.5) +
+  geom_point(
+    data = df_age_sales %>% filter(attr_rate > 0.5),
+    aes(x = Age, y = attr_rate),
+    color = "#b2182b",
+    size = 2.5
   ) +
+  geom_point(
+    data = df_age_sales %>% filter(attr_rate > 0.5),
+    aes(x = Age, y = attr_rate),
+    shape = 21,
+    size = 6,
+    stroke = 1,
+    color = "#b2182b",
+    fill = NA
+  ) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   labs(
-    title = "Attrition Rate by Job Role and Education Field",
-    fill  = "Attrition Rate Percentage"
+    title = "Attrition Rate by Age (Sales Department)",
+    subtitle = "Younger Sales employees experience the highest attrition, often exceeding 50% turnover.",
+    x = "Age",
+    y = "Attrition Rate"
   ) +
+  theme_economist() +
   theme(
-    # Tweaking plot appearance
-    plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b = 10)),
-    legend.position = "top",
-    legend.justification = "center",
-    legend.title = element_text(size = 9, face = "bold"),
-    legend.text  = element_text(size = 8),
-    legend.key.width  = unit(1, "cm"),
-    legend.key.height = unit(0.4, "cm"),
-    # Improve x-axis label readability
-    axis.text.x  = element_text(angle = 45, hjust = 1, vjust = 1, size = 9),
+    plot.title = element_text(
+      hjust = 0.5,
+      face = "bold",
+      margin = margin(b = 6)
+    ),
+    plot.subtitle = element_text(
+      hjust = 0.5,
+      size = 9,
+      color = "gray30",
+      margin = margin(b = 10)
+    ),
     axis.title.x = element_text(margin = margin(t = 12)),
-    axis.title.y = element_text(margin = margin(r = 12)),
-    # Balancing white space left/right (long y labels widen the left side)
-    plot.margin  = margin(t = 5, r = 75, b = 5, l = 5)
+    axis.title.y = element_text(margin = margin(r = 12))
   )
 ```
 
 ![](multivariate_analysis_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-This visualization highlights that attrition risk is not evenly
-distributed across job roles or educational backgrounds. Employees in
-sales-related roles—particularly Sales Representatives with Medical or
-Technical degrees—show the highest turnover rates. Conversely, employees
-in research and management positions display significantly lower
-attrition, indicating stronger role alignment and job stability. These
-insights suggest that retention efforts may need to focus on improving
-engagement, career development, and growth opportunities for technically
-trained employees in high-turnover sales positions.
+This line chart reveals a clear age-related trend in attrition within
+the Sales department. Younger employees—particularly those under
+25—experience significantly higher turnover rates, in several cases
+exceeding 50% and even approaching full attrition. These sharp
+early-career exits suggest potential challenges in onboarding, job
+expectations, or early compensation satisfaction. In contrast,
+mid-career employees between ages 30 and 45 show much lower and more
+stable attrition rates, indicating stronger retention once employees
+establish tenure and familiarity with their roles. The resurgence of
+attrition among older sales staff (around age 50) may reflect career
+transitions or retirement considerations. Overall, this pattern
+underscores the importance of targeted retention programs for younger
+sales employees, such as enhanced mentorship, clearer advancement
+pathways, and performance-linked incentives.
 
 ------------------------------------------------------------------------
 
@@ -212,5 +233,62 @@ reinforce an idea that lower compensation may be a significant driver of
 attrition in the Sales department, highlighting an opportunity for Frito
 Lay to improve retention through targeted pay adjustments or incentive
 structures.
+
+------------------------------------------------------------------------
+
+### Attrition by Job Role and Education Field
+
+Question:
+
+How does the attrition rate vary across different Job Roles and
+Education Fields?
+
+``` r
+# Calculating attrition rate by Job Role and Education Field
+df2 <- data %>%
+  group_by(JobRole, EducationField) %>%
+  summarise(attr_rate = mean(Attrition == "Yes"), .groups = "drop")
+
+# Plotting a Heatmap to visualize 
+ggplot(df2, aes(EducationField, JobRole, fill = attr_rate)) +
+  geom_tile(color = "white") +   
+  scale_fill_gradient(
+    low  = "#d8e6f3",            
+    high = "#b2182b",            
+    labels = percent             
+  ) +
+  labs(
+    title = "Attrition Rate by Job Role and Education Field",
+    fill  = "Attrition Rate Percentage"
+  ) +
+  theme(
+    # Tweaking plot appearance
+    plot.title = element_text(hjust = 0.5, face = "bold", margin = margin(b = 10)),
+    legend.position = "top",
+    legend.justification = "center",
+    legend.title = element_text(size = 9, face = "bold"),
+    legend.text  = element_text(size = 8),
+    legend.key.width  = unit(1, "cm"),
+    legend.key.height = unit(0.4, "cm"),
+    # Improve x-axis label readability
+    axis.text.x  = element_text(angle = 45, hjust = 1, vjust = 1, size = 9),
+    axis.title.x = element_text(margin = margin(t = 12)),
+    axis.title.y = element_text(margin = margin(r = 12)),
+    # Balancing white space left/right (long y labels widen the left side)
+    plot.margin  = margin(t = 5, r = 75, b = 5, l = 5)
+  )
+```
+
+![](multivariate_analysis_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+This visualization highlights that attrition risk is not evenly
+distributed across job roles or educational backgrounds. Employees in
+sales-related roles—particularly Sales Representatives with Medical or
+Technical degrees—show the highest turnover rates. Conversely, employees
+in research and management positions display significantly lower
+attrition, indicating stronger role alignment and job stability. These
+insights suggest that retention efforts may need to focus on improving
+engagement, career development, and growth opportunities for technically
+trained employees in high-turnover sales positions.
 
 ------------------------------------------------------------------------
