@@ -1,8 +1,6 @@
 Frito Lay: Customer Attrition - Multivariate Analysis
 ================
 
-## ———— Libraries ————-
-
 ``` r
 library(tidyverse)
 library(caret)
@@ -338,14 +336,13 @@ the Sales department. Each cell represents the average attrition rate
 for employees with a specific pairing of satisfaction levels (ranging
 from 1 = Low to 4 = High).
 
-The results show a clear pattern:
-
 Low satisfaction levels—particularly when both job and environment
 satisfaction are rated 1 or 2—are associated with the highest attrition
 rates, often exceeding 50%.
 
 Conversely, employees who report higher satisfaction (levels 3 or 4) in
-both categories exhibit substantially lower turnover.
+both categories exhibit a lower turnover - with a few exceptions to
+explore.
 
 The transition from deep red to lighter blue tones underscores how even
 moderate improvements in either satisfaction measure can sharply reduce
