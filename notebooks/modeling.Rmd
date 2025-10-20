@@ -18,13 +18,19 @@ library(tidyverse)
 library(caret)
 library(e1071)
 library(class)
+library(naivebayes)
 library(scales)
 library(ggthemes)
 theme_set(theme_economist())
 title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 ```
 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 ## ------------ Data Loading -------------
+
 ```{r}
 # getwd()
 data <- read.csv("../data/CaseStudy1-data.csv")
@@ -32,9 +38,17 @@ data <- read.csv("../data/CaseStudy1-data.csv")
 
 ## ------------ Data Preparation -------------
 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 ```{r}
 str(data)
 ```
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 ### ------------- Remove Low Variance and Constant Features -------------
 
@@ -60,11 +74,115 @@ data_v2 <- data %>%
 dim(data_v2)
 ```
 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 ### ------------- Convert Categorical Variables to Factors -------------
 
 ```{r}
 data_v3 <- data_v2 %>%
   mutate_if(is.character, as.factor)
 str(data_v3)
+```
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+### ------------- Modeling -------------
+
+##### ------------- Naive Bayes with 10-fold Cross-Validation -------------
+```{r}
+set.seed(123)
+ctrl <- trainControl(
+  method = "cv",
+  number = 10,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE
+)
+
+data_v3$Attrition <- relevel(data_v3$Attrition, ref = "Yes")
+
+nb_cv <- train(
+  Attrition ~ .,
+  data = data_v3,
+  method = "naive_bayes",
+  trControl = ctrl,
+  metric = "ROC",
+  tuneGrid = data.frame(
+    laplace   = 0,
+    usekernel = FALSE,
+    adjust    = 1
+  )
+)
+nb_cv
+```
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+##### Testing Prediction
+```{r}
+set.seed(123)
+idx <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
+train <- data_v3[idx, ]
+test  <- data_v3[-idx, ]
+
+pred_nb <- predict(nb_cv, newdata = test)
+
+pred_prob <- predict(nb_cv, newdata = test, type = "prob")
+
+cm_nb <- confusionMatrix(pred_nb, test$Attrition, positive = "Yes")
+cm_nb
+
+```
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+##### ------------- KNN with 10-fold Cross-Validation -------------
+```{r}
+set.seed(123)
+
+data_v3$Attrition <- relevel(data_v3$Attrition, ref = "Yes")
+ctrl <- trainControl(
+  method = "cv",
+  number = 10,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE
+)
+
+knn_cv <- train(
+  Attrition ~ .,
+  data = data_v3,
+  method = "knn",
+  trControl = ctrl,
+  preProcess = c("center", "scale"),
+  metric = "Sens",                  
+  tuneGrid = data.frame(k = seq(3, 31, 2))
+)
+
+knn_cv
+```
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+##### Testing Prediction
+```{r}
+set.seed(6)
+
+idx  <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
+train <- data_v3[idx, ]
+test  <- data_v3[-idx, ]
+
+pred_knn_cls  <- predict(knn_cv, newdata = test)              # class labels
+pred_knn_prob <- predict(knn_cv, newdata = test, type = "prob")  # probs (optional)
+
+confusionMatrix(pred_knn_cls, test$Attrition, positive = "Yes")
 ```
 

@@ -6,11 +6,14 @@ library(tidyverse)
 library(caret)
 library(e1071)
 library(class)
+library(naivebayes)
 library(scales)
 library(ggthemes)
 theme_set(theme_economist())
 title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 ```
+
+------------------------------------------------------------------------
 
 ## ———— Data Loading ————-
 
@@ -20,6 +23,8 @@ data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
 ## ———— Data Preparation ————-
+
+------------------------------------------------------------------------
 
 ``` r
 str(data)
@@ -63,6 +68,8 @@ str(data)
     ##  $ YearsSinceLastPromotion : int  0 4 2 5 1 1 0 0 0 7 ...
     ##  $ YearsWithCurrManager    : int  3 9 2 7 3 7 3 0 0 7 ...
 
+------------------------------------------------------------------------
+
 ### ————- Remove Low Variance and Constant Features ————-
 
 ``` r
@@ -101,6 +108,8 @@ dim(data_v2)
 ```
 
     ## [1] 870  31
+
+------------------------------------------------------------------------
 
 ### ————- Convert Categorical Variables to Factors ————-
 
@@ -142,3 +151,205 @@ str(data_v3)
     ##  $ YearsInCurrentRole      : int  2 7 2 10 3 7 2 0 1 2 ...
     ##  $ YearsSinceLastPromotion : int  0 4 2 5 1 1 0 0 0 7 ...
     ##  $ YearsWithCurrManager    : int  3 9 2 7 3 7 3 0 0 7 ...
+
+------------------------------------------------------------------------
+
+### ————- Modeling ————-
+
+##### ————- Naive Bayes with 10-fold Cross-Validation ————-
+
+``` r
+set.seed(123)
+ctrl <- trainControl(
+  method = "cv",
+  number = 10,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE
+)
+
+data_v3$Attrition <- relevel(data_v3$Attrition, ref = "Yes")
+
+nb_cv <- train(
+  Attrition ~ .,
+  data = data_v3,
+  method = "naive_bayes",
+  trControl = ctrl,
+  metric = "ROC",
+  tuneGrid = data.frame(
+    laplace   = 0,
+    usekernel = FALSE,
+    adjust    = 1
+  )
+)
+nb_cv
+```
+
+    ## Naive Bayes 
+    ## 
+    ## 870 samples
+    ##  30 predictor
+    ##   2 classes: 'Yes', 'No' 
+    ## 
+    ## No pre-processing
+    ## Resampling: Cross-Validated (10 fold) 
+    ## Summary of sample sizes: 783, 783, 783, 783, 783, 783, ... 
+    ## Resampling results:
+    ## 
+    ##   ROC        Sens       Spec     
+    ##   0.7746575  0.7857143  0.6041096
+    ## 
+    ## Tuning parameter 'laplace' was held constant at a value of 0
+    ## Tuning
+    ##  parameter 'usekernel' was held constant at a value of FALSE
+    ## Tuning
+    ##  parameter 'adjust' was held constant at a value of 1
+
+------------------------------------------------------------------------
+
+##### Testing Prediction
+
+``` r
+set.seed(123)
+idx <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
+train <- data_v3[idx, ]
+test  <- data_v3[-idx, ]
+
+pred_nb <- predict(nb_cv, newdata = test)
+
+pred_prob <- predict(nb_cv, newdata = test, type = "prob")
+
+cm_nb <- confusionMatrix(pred_nb, test$Attrition, positive = "Yes")
+cm_nb
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##           Reference
+    ## Prediction Yes  No
+    ##        Yes  34  78
+    ##        No    8 141
+    ##                                           
+    ##                Accuracy : 0.6705          
+    ##                  95% CI : (0.6099, 0.7272)
+    ##     No Information Rate : 0.8391          
+    ##     P-Value [Acc > NIR] : 1               
+    ##                                           
+    ##                   Kappa : 0.2709          
+    ##                                           
+    ##  Mcnemar's Test P-Value : 1.003e-13       
+    ##                                           
+    ##             Sensitivity : 0.8095          
+    ##             Specificity : 0.6438          
+    ##          Pos Pred Value : 0.3036          
+    ##          Neg Pred Value : 0.9463          
+    ##              Prevalence : 0.1609          
+    ##          Detection Rate : 0.1303          
+    ##    Detection Prevalence : 0.4291          
+    ##       Balanced Accuracy : 0.7267          
+    ##                                           
+    ##        'Positive' Class : Yes             
+    ## 
+
+------------------------------------------------------------------------
+
+##### ————- KNN with 10-fold Cross-Validation ————-
+
+``` r
+set.seed(123)
+
+data_v3$Attrition <- relevel(data_v3$Attrition, ref = "Yes")
+ctrl <- trainControl(
+  method = "cv",
+  number = 10,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE
+)
+
+knn_cv <- train(
+  Attrition ~ .,
+  data = data_v3,
+  method = "knn",
+  trControl = ctrl,
+  preProcess = c("center", "scale"),
+  metric = "Sens",                  
+  tuneGrid = data.frame(k = seq(3, 31, 2))
+)
+
+knn_cv
+```
+
+    ## k-Nearest Neighbors 
+    ## 
+    ## 870 samples
+    ##  30 predictor
+    ##   2 classes: 'Yes', 'No' 
+    ## 
+    ## Pre-processing: centered (44), scaled (44) 
+    ## Resampling: Cross-Validated (10 fold) 
+    ## Summary of sample sizes: 783, 783, 783, 783, 783, 783, ... 
+    ## Resampling results across tuning parameters:
+    ## 
+    ##   k   ROC        Sens        Spec     
+    ##    3  0.6295499  0.16428571  0.9712329
+    ##    5  0.6771037  0.16428571  0.9863014
+    ##    7  0.7238748  0.16428571  0.9863014
+    ##    9  0.7185910  0.14285714  0.9917808
+    ##   11  0.7310665  0.12142857  0.9945205
+    ##   13  0.7382094  0.10714286  0.9958904
+    ##   15  0.7390900  0.10000000  0.9945205
+    ##   17  0.7363503  0.10000000  0.9972603
+    ##   19  0.7388943  0.08571429  0.9972603
+    ##   21  0.7386008  0.07857143  0.9972603
+    ##   23  0.7397750  0.07857143  0.9986301
+    ##   25  0.7411448  0.07857143  0.9972603
+    ##   27  0.7430039  0.04285714  0.9986301
+    ##   29  0.7434932  0.03571429  0.9986301
+    ##   31  0.7538650  0.03571429  1.0000000
+    ## 
+    ## Sens was used to select the optimal model using the largest value.
+    ## The final value used for the model was k = 7.
+
+------------------------------------------------------------------------
+
+##### Testing Prediction
+
+``` r
+set.seed(6)
+
+idx  <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
+train <- data_v3[idx, ]
+test  <- data_v3[-idx, ]
+
+pred_knn_cls  <- predict(knn_cv, newdata = test)              # class labels
+pred_knn_prob <- predict(knn_cv, newdata = test, type = "prob")  # probs (optional)
+
+confusionMatrix(pred_knn_cls, test$Attrition, positive = "Yes")
+```
+
+    ## Confusion Matrix and Statistics
+    ## 
+    ##           Reference
+    ## Prediction Yes  No
+    ##        Yes   7   0
+    ##        No   35 219
+    ##                                           
+    ##                Accuracy : 0.8659          
+    ##                  95% CI : (0.8185, 0.9048)
+    ##     No Information Rate : 0.8391          
+    ##     P-Value [Acc > NIR] : 0.1358          
+    ##                                           
+    ##                   Kappa : 0.2513          
+    ##                                           
+    ##  Mcnemar's Test P-Value : 9.081e-09       
+    ##                                           
+    ##             Sensitivity : 0.16667         
+    ##             Specificity : 1.00000         
+    ##          Pos Pred Value : 1.00000         
+    ##          Neg Pred Value : 0.86220         
+    ##              Prevalence : 0.16092         
+    ##          Detection Rate : 0.02682         
+    ##    Detection Prevalence : 0.02682         
+    ##       Balanced Accuracy : 0.58333         
+    ##                                           
+    ##        'Positive' Class : Yes             
+    ## 
