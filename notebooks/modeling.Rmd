@@ -33,7 +33,7 @@ data <- read.csv("../data/CaseStudy1-data.csv")
 ## ------------ Data Preparation -------------
 
 ```{r}
-# glimpse(data)
+str(data)
 ```
 
 ### ------------- Remove Low Variance and Constant Features -------------
@@ -60,4 +60,11 @@ data_v2 <- data %>%
 dim(data_v2)
 ```
 
+### ------------- Convert Categorical Variables to Factors -------------
+
+```{r}
+data_v3 <- data_v2 %>%
+  mutate_if(is.character, as.factor)
+str(data_v3)
+```
 
