@@ -3,9 +3,9 @@ Frito Lay: Customer Attrition - Multivariate Analysis
 
 ``` r
 library(tidyverse)
-library(tidymodels)  # recipes, parsnip, workflows, yardstick, tune, rsample
+library(tidymodels)  
 library(themis)
-library(kknn)        # KNN engine
+library(kknn)
 library(naivebayes) 
 library(caret)
 set.seed(123)
@@ -14,12 +14,6 @@ set.seed(123)
 ------------------------------------------------------------------------
 
 ### ———— Data Loading ————-
-
-``` r
-getwd()
-```
-
-    ## [1] "/Users/cory/Projects/DDSAnalytics_customer_attrition/notebooks"
 
 ``` r
 data <- read.csv("../data/CaseStudy1-data.csv")
@@ -32,15 +26,12 @@ data <- read.csv("../data/CaseStudy1-data.csv")
 ``` r
 set.seed(123)
 
-# Target factor with "Yes" as positive/event class
 data$Attrition <- relevel(factor(data$Attrition), ref = "Yes")
 
-# ---- Split (stratified) ----
 idx   <- createDataPartition(data$Attrition, p = 0.7, list = FALSE)
 train <- data[idx, ]
 test  <- data[-idx, ]
 
-# ---- Recipe (preprocessing pipeline) ----
 attrition_rec <- recipe(Attrition ~ ., data = train) %>%
   step_string2factor(all_nominal_predictors()) %>%
   step_nzv(all_predictors()) %>%
@@ -67,10 +58,8 @@ ctrl <- trainControl(
   savePredictions = "final"
 )
 
-# ---- K tuning grid ----
 grid <- expand.grid(k = seq(3, 100, by = 3))
 
-# ---- Train KNN with recipe + CV ----
 set.seed(42)
 
 knn_model <- train(
@@ -82,7 +71,6 @@ knn_model <- train(
   metric = "F1"
 )
 
-# ---- Evaluate on unseen test ----
 pred_test <- predict(knn_model, newdata = test)
 confusionMatrix(pred_test, test$Attrition, positive = "Yes")
 ```
@@ -120,69 +108,10 @@ confusionMatrix(pred_test, test$Attrition, positive = "Yes")
 ### ———— KNN Feature Importance ————-
 
 ``` r
-# Extract feature importance from the Naive Bayes model
 importance_nb <- varImp(knn_model)
-
-# View top 10 most important features
-print(importance_nb)
-```
-
-    ## ROC curve variable importance
-    ## 
-    ##   only 20 most important variables shown (out of 53)
-    ## 
-    ##                                   Importance
-    ## OverTime_No                           100.00
-    ## OverTime_Yes                          100.00
-    ## Age                                    84.77
-    ## MonthlyIncome                          79.20
-    ## TotalWorkingYears                      79.11
-    ## StockOptionLevel                       74.61
-    ## Department_Research...Development      68.07
-    ## YearsInCurrentRole                     67.50
-    ## Department_Sales                       66.87
-    ## MaritalStatus_Single                   64.46
-    ## ID                                     61.84
-    ## DistanceFromHome                       58.83
-    ## YearsWithCurrManager                   58.38
-    ## YearsAtCompany                         57.38
-    ## JobRole_Sales.Representative           56.02
-    ## JobLevel                               51.49
-    ## MaritalStatus_Divorced                 51.20
-    ## JobSatisfaction                        44.06
-    ## JobInvolvement                         41.60
-    ## Gender_Female                          40.36
-
-``` r
 plot(importance_nb, top = 10, main = "Top 10 Feature Importances - K-Nearest Neighbors")
 ```
 
 ![](knn_modeling_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ------------------------------------------------------------------------
-
-### ———— KNN Training/Test Data Sanity Check ————-
-
-``` r
-# Prep the recipe on the training data
-rec_prep <- prep(attrition_rec)
-
-# View the transformed training data
-train_processed <- bake(rec_prep, new_data = NULL)
-table(train_processed$Attrition)
-```
-
-    ## 
-    ## Yes  No 
-    ## 479 479
-
-``` r
-# View the transformed test data (same preprocessing)
-test_processed <- bake(rec_prep, new_data = test)
-
-table(test_processed$Attrition)
-```
-
-    ## 
-    ## Yes  No 
-    ##  42 219
