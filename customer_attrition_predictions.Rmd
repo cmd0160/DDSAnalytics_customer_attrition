@@ -49,8 +49,8 @@ predictions <- predict(nb_model, newdata = test_data)
 test_data$Attrition <- predictions
 
 final_preds <- test_data %>%
-  dplyr::select(ID, Attrition) %>%
-  dplyr::arrange(ID)
+  select(ID, Attrition) %>%
+  arrange(ID)
 
 write.csv(final_preds, "Case1PredictionsDAVIS Attrition.csv", row.names = FALSE)
 ```
