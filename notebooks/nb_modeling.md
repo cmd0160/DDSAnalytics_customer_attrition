@@ -206,52 +206,6 @@ nb_cv
 
 ------------------------------------------------------------------------
 
-### ————- Testing Prediction ————-
-
-``` r
-set.seed(123)
-idx <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
-train <- data_v3[idx, ]
-test  <- data_v3[-idx, ]
-
-pred_nb <- predict(nb_cv, newdata = test)
-
-pred_prob <- predict(nb_cv, newdata = test, type = "prob")
-
-cm_nb <- confusionMatrix(pred_nb, test$Attrition, positive = "Yes")
-cm_nb
-```
-
-    ## Confusion Matrix and Statistics
-    ## 
-    ##           Reference
-    ## Prediction Yes  No
-    ##        Yes  34  78
-    ##        No    8 141
-    ##                                           
-    ##                Accuracy : 0.6705          
-    ##                  95% CI : (0.6099, 0.7272)
-    ##     No Information Rate : 0.8391          
-    ##     P-Value [Acc > NIR] : 1               
-    ##                                           
-    ##                   Kappa : 0.2709          
-    ##                                           
-    ##  Mcnemar's Test P-Value : 1.003e-13       
-    ##                                           
-    ##             Sensitivity : 0.8095          
-    ##             Specificity : 0.6438          
-    ##          Pos Pred Value : 0.3036          
-    ##          Neg Pred Value : 0.9463          
-    ##              Prevalence : 0.1609          
-    ##          Detection Rate : 0.1303          
-    ##    Detection Prevalence : 0.4291          
-    ##       Balanced Accuracy : 0.7267          
-    ##                                           
-    ##        'Positive' Class : Yes             
-    ## 
-
-------------------------------------------------------------------------
-
 ### ———— NB Feature Importance ————-
 
 ``` r
@@ -292,4 +246,4 @@ print(importance_nb)
 plot(importance_nb, top = 10, main = "Top 10 Feature Importances - Naive Bayes")
 ```
 
-![](modeling_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](nb_modeling_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->

@@ -124,26 +124,6 @@ nb_cv
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-### ------------- Testing Prediction -------------
-
-```{r}
-set.seed(123)
-idx <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
-train <- data_v3[idx, ]
-test  <- data_v3[-idx, ]
-
-pred_nb <- predict(nb_cv, newdata = test)
-
-pred_prob <- predict(nb_cv, newdata = test, type = "prob")
-
-cm_nb <- confusionMatrix(pred_nb, test$Attrition, positive = "Yes")
-cm_nb
-```
-
-
---------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 ### ------------ NB Feature Importance -------------
 
 ```{r}
