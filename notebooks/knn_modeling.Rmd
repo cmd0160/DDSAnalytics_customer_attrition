@@ -107,3 +107,10 @@ plot(importance_nb, top = 10, main = "Top 10 Feature Importances - K-Nearest Nei
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+### ------------ Saving Model -------------
+
+```{r}
+# Save an R object
+saveRDS(knn_model, "../models/knn_model.rds")
+```
+

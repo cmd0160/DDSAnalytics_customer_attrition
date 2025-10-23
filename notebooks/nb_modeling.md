@@ -198,3 +198,12 @@ plot(importance_nb, top = 10, main = "Top 10 Feature Importances - Naive Bayes")
 ```
 
 ![](nb_modeling_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+------------------------------------------------------------------------
+
+### ———— Saving Model ————-
+
+``` r
+# Save an R object
+saveRDS(nb_cv, "../models/nb_model.rds")
+```

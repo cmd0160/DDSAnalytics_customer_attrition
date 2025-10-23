@@ -115,3 +115,10 @@ plot(importance_nb, top = 10, main = "Top 10 Feature Importances - K-Nearest Nei
 ![](knn_modeling_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ------------------------------------------------------------------------
+
+### ———— Saving Model ————-
+
+``` r
+# Save an R object
+saveRDS(knn_model, "../models/knn_model.rds")
+```
