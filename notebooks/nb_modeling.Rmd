@@ -29,18 +29,18 @@ title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-## ------------ Data Loading -------------
+### ------------ Data Loading -------------
 
 ```{r}
 # getwd()
 data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
-## ------------ Data Preparation -------------
-
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+### ------------ Data Preparation -------------
 
 ```{r}
 str(data)
@@ -93,6 +93,7 @@ str(data_v3)
 ### ------------- Modeling -------------
 
 ##### ------------- Naive Bayes with 10-fold Cross-Validation -------------
+
 ```{r}
 set.seed(123)
 ctrl <- trainControl(
@@ -123,7 +124,8 @@ nb_cv
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-##### Testing Prediction
+### ------------- Testing Prediction -------------
+
 ```{r}
 set.seed(123)
 idx <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
@@ -136,53 +138,20 @@ pred_prob <- predict(nb_cv, newdata = test, type = "prob")
 
 cm_nb <- confusionMatrix(pred_nb, test$Attrition, positive = "Yes")
 cm_nb
-
 ```
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-##### ------------- KNN with 10-fold Cross-Validation -------------
+### ------------ NB Feature Importance -------------
+
 ```{r}
-set.seed(123)
+# Extract feature importance from the Naive Bayes model
+importance_nb <- varImp(nb_cv)
 
-data_v3$Attrition <- relevel(data_v3$Attrition, ref = "Yes")
-ctrl <- trainControl(
-  method = "cv",
-  number = 10,
-  summaryFunction = twoClassSummary,
-  classProbs = TRUE
-)
-
-knn_cv <- train(
-  Attrition ~ .,
-  data = data_v3,
-  method = "knn",
-  trControl = ctrl,
-  preProcess = c("center", "scale"),
-  metric = "Sens",                  
-  tuneGrid = data.frame(k = seq(3, 31, 2))
-)
-
-knn_cv
-```
-
-
---------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-##### Testing Prediction
-```{r}
-set.seed(6)
-
-idx  <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
-train <- data_v3[idx, ]
-test  <- data_v3[-idx, ]
-
-pred_knn_cls  <- predict(knn_cv, newdata = test)              # class labels
-pred_knn_prob <- predict(knn_cv, newdata = test, type = "prob")  # probs (optional)
-
-confusionMatrix(pred_knn_cls, test$Attrition, positive = "Yes")
+# View top 10 most important features
+print(importance_nb)
+plot(importance_nb, top = 10, main = "Top 10 Feature Importances - Naive Bayes")
 ```
 

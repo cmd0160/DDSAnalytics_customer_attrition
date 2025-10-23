@@ -15,16 +15,16 @@ title_format <- function(x) labs(title = x, x = NULL, y = NULL)
 
 ------------------------------------------------------------------------
 
-## ———— Data Loading ————-
+### ———— Data Loading ————-
 
 ``` r
 # getwd()
 data <- read.csv("../data/CaseStudy1-data.csv")
 ```
 
-## ———— Data Preparation ————-
-
 ------------------------------------------------------------------------
+
+### ———— Data Preparation ————-
 
 ``` r
 str(data)
@@ -206,7 +206,7 @@ nb_cv
 
 ------------------------------------------------------------------------
 
-##### Testing Prediction
+### ————- Testing Prediction ————-
 
 ``` r
 set.seed(123)
@@ -252,104 +252,44 @@ cm_nb
 
 ------------------------------------------------------------------------
 
-##### ————- KNN with 10-fold Cross-Validation ————-
+### ———— NB Feature Importance ————-
 
 ``` r
-set.seed(123)
+# Extract feature importance from the Naive Bayes model
+importance_nb <- varImp(nb_cv)
 
-data_v3$Attrition <- relevel(data_v3$Attrition, ref = "Yes")
-ctrl <- trainControl(
-  method = "cv",
-  number = 10,
-  summaryFunction = twoClassSummary,
-  classProbs = TRUE
-)
-
-knn_cv <- train(
-  Attrition ~ .,
-  data = data_v3,
-  method = "knn",
-  trControl = ctrl,
-  preProcess = c("center", "scale"),
-  metric = "Sens",                  
-  tuneGrid = data.frame(k = seq(3, 31, 2))
-)
-
-knn_cv
+# View top 10 most important features
+print(importance_nb)
 ```
 
-    ## k-Nearest Neighbors 
+    ## ROC curve variable importance
     ## 
-    ## 870 samples
-    ##  30 predictor
-    ##   2 classes: 'Yes', 'No' 
+    ##   only 20 most important variables shown (out of 30)
     ## 
-    ## Pre-processing: centered (44), scaled (44) 
-    ## Resampling: Cross-Validated (10 fold) 
-    ## Summary of sample sizes: 783, 783, 783, 783, 783, 783, ... 
-    ## Resampling results across tuning parameters:
-    ## 
-    ##   k   ROC        Sens        Spec     
-    ##    3  0.6295499  0.16428571  0.9712329
-    ##    5  0.6771037  0.16428571  0.9863014
-    ##    7  0.7238748  0.16428571  0.9863014
-    ##    9  0.7185910  0.14285714  0.9917808
-    ##   11  0.7310665  0.12142857  0.9945205
-    ##   13  0.7382094  0.10714286  0.9958904
-    ##   15  0.7390900  0.10000000  0.9945205
-    ##   17  0.7363503  0.10000000  0.9972603
-    ##   19  0.7388943  0.08571429  0.9972603
-    ##   21  0.7386008  0.07857143  0.9972603
-    ##   23  0.7397750  0.07857143  0.9986301
-    ##   25  0.7411448  0.07857143  0.9972603
-    ##   27  0.7430039  0.04285714  0.9986301
-    ##   29  0.7434932  0.03571429  0.9986301
-    ##   31  0.7538650  0.03571429  1.0000000
-    ## 
-    ## Sens was used to select the optimal model using the largest value.
-    ## The final value used for the model was k = 7.
-
-------------------------------------------------------------------------
-
-##### Testing Prediction
+    ##                         Importance
+    ## OverTime                    100.00
+    ## MonthlyIncome                93.32
+    ## TotalWorkingYears            93.08
+    ## YearsAtCompany               87.49
+    ## StockOptionLevel             86.59
+    ## MaritalStatus                85.59
+    ## JobLevel                     83.66
+    ## YearsInCurrentRole           83.47
+    ## YearsWithCurrManager         76.78
+    ## Age                          75.20
+    ## JobInvolvement               68.90
+    ## JobSatisfaction              49.38
+    ## JobRole                      49.11
+    ## Department                   35.72
+    ## DistanceFromHome             34.61
+    ## EnvironmentSatisfaction      31.36
+    ## WorkLifeBalance              28.91
+    ## TrainingTimesLastYear        25.13
+    ## Education                    22.48
+    ## NumCompaniesWorked           20.68
 
 ``` r
-set.seed(6)
-
-idx  <- createDataPartition(data_v3$Attrition, p = 0.7, list = FALSE)
-train <- data_v3[idx, ]
-test  <- data_v3[-idx, ]
-
-pred_knn_cls  <- predict(knn_cv, newdata = test)              # class labels
-pred_knn_prob <- predict(knn_cv, newdata = test, type = "prob")  # probs (optional)
-
-confusionMatrix(pred_knn_cls, test$Attrition, positive = "Yes")
+plot(importance_nb, top = 10, main = "Top 10 Feature Importances - Naive Bayes")
 ```
 
-    ## Confusion Matrix and Statistics
-    ## 
-    ##           Reference
-    ## Prediction Yes  No
-    ##        Yes   7   0
-    ##        No   35 219
-    ##                                           
-    ##                Accuracy : 0.8659          
-    ##                  95% CI : (0.8185, 0.9048)
-    ##     No Information Rate : 0.8391          
-    ##     P-Value [Acc > NIR] : 0.1358          
-    ##                                           
-    ##                   Kappa : 0.2513          
-    ##                                           
-    ##  Mcnemar's Test P-Value : 9.081e-09       
-    ##                                           
-    ##             Sensitivity : 0.16667         
-    ##             Specificity : 1.00000         
-    ##          Pos Pred Value : 1.00000         
-    ##          Neg Pred Value : 0.86220         
-    ##              Prevalence : 0.16092         
-    ##          Detection Rate : 0.02682         
-    ##    Detection Prevalence : 0.02682         
-    ##       Balanced Accuracy : 0.58333         
-    ##                                           
-    ##        'Positive' Class : Yes             
-    ## 
+![](modeling_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
