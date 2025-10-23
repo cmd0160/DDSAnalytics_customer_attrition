@@ -1,0 +1,57 @@
+---
+title: "Frito Lay: Customer Attrition - Predictions"
+output: 
+  github_document:
+    html_preview: false
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,       
+  warning = FALSE,   
+  message = FALSE    
+)
+```
+
+```{r}
+library(tidyverse)
+```
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+### -------------- Load Data --------------
+
+```{r}
+test_data <- read_csv("data/CaseStudy1CompSet No Attrition.csv")
+```
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+### -------------- Load Model --------------
+
+```{r}
+knn_model <- readRDS("models/knn_model.rds")
+nb_model <- readRDS("models/nb_model.rds")
+```
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+### -------------- Predictions/Postprocessing --------------
+
+```{r}
+predictions <- predict(nb_model, newdata = test_data)
+
+test_data$Attrition <- predictions
+
+final_preds <- test_data %>%
+  dplyr::select(ID, Attrition) %>%
+  dplyr::arrange(ID)
+
+write.csv(final_preds, "Case1PredictionsDAVIS Attrition.csv", row.names = FALSE)
+```
+
