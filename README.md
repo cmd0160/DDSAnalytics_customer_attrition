@@ -12,11 +12,11 @@ This project applies **statistical and machine learning models** to understand w
 
 The analysis is divided into two core notebooks:  
 
-- 🧩 **[Univariate Analysis](./notebooks/univariate_analysis.md)** — Examines individual variables (e.g., demographics, income, satisfaction).  
-- 🔗 **[Multivariate Analysis](./notebooks/multivariate_analysis.md)** — Explores feature interactions and develops predictive models.  
-- 🔗 **[Naive Bayes Modeling](./notebooks/nb_modeling.md)** — Naive Bayes Modeling (Probabilistic Classification).  
-- 🔗 **[KNN Modeling](./notebooks/knn_modeling.md)** — K-Nearest Neighbors Modeling (Distance Based Classification). 
-- 🔗 **[Predictions](./notebooks/customer_attrition_predictions.Rmd)** — Predictions notebook. 
+- **[Univariate Analysis](./notebooks/univariate_analysis.md)** — Examines individual variables (e.g., demographics, income, satisfaction).  
+- **[Multivariate Analysis](./notebooks/multivariate_analysis.md)** — Explores feature interactions and develops predictive models.  
+- **[Naive Bayes Modeling](./notebooks/nb_modeling.md)** — Naive Bayes Modeling (Probabilistic Classification).  
+- **[KNN Modeling](./notebooks/knn_modeling.md)** — K-Nearest Neighbors Modeling (Distance Based Classification). 
+- **[Predictions](./customer_attrition_predictions.Rmd)** — Predictions notebook. 
 
 
 The full analysis pipeline includes:
