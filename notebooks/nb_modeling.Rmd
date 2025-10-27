@@ -1,5 +1,5 @@
 ---
-title: "Frito Lay: Customer Attrition - Multivariate Analysis"
+title: "Frito Lay: Customer Attrition - Naive Bayes Modeling"
 output: 
   github_document:
     html_preview: false
