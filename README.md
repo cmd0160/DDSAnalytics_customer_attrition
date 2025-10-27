@@ -16,8 +16,9 @@ The analysis is divided into two core notebooks:
 - **[Multivariate Analysis](./notebooks/multivariate_analysis.md)** — Explores feature interactions and develops predictive models.  
 - **[Naive Bayes Modeling](./notebooks/nb_modeling.md)** — Naive Bayes Modeling (Probabilistic Classification).  
 - **[KNN Modeling](./notebooks/knn_modeling.md)** — K-Nearest Neighbors Modeling (Distance Based Classification). 
-- **[Predictions](./customer_attrition_predictions.Rmd)** — Predictions notebook. 
-
+- **[Presentation](https://www.youtube.com/watch?v=91kPSXiuGDw)** — YouTube Presentation.
+- **[Presentation Keynote](./DDSAnalytics_v1.key)** — Presentation Deck. 
+- **[Predictions](./Case1PredictionsDAVIS Attrition.csv)** — Predictions notebook. 
 
 The full analysis pipeline includes:
 - Exploratory Data Analysis (EDA)  
