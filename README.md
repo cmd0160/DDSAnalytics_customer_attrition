@@ -1,4 +1,4 @@
-# 🧭 Frito Lay Employee Attrition Analysis  
+# Frito Lay Employee Attrition Analysis  
 
 **Author:** Cory Davis  
 **Tools:** R | tidyverse | caret | ggplot2 | ggthemes | e1071 | knitr | naivebayes  
