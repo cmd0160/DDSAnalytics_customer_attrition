@@ -1,4 +1,4 @@
-Frito Lay: Customer Attrition - Multivariate Analysis
+Frito Lay: Customer Attrition - Naive Bayes Modeling
 ================
 
 ``` r

@@ -1,4 +1,4 @@
-Frito Lay: Customer Attrition - Multivariate Analysis
+Frito Lay: Customer Attrition - KNN Modeling
 ================
 
 ``` r
