@@ -18,7 +18,7 @@ The analysis is divided into two core notebooks:
 - **[KNN Modeling](./notebooks/knn_modeling.md)** — K-Nearest Neighbors Modeling (Distance Based Classification). 
 - **[Presentation](https://www.youtube.com/watch?v=91kPSXiuGDw)** — YouTube Presentation.
 - **[Presentation Keynote](./DDSAnalytics_v1.key)** — Presentation Deck. 
-- **[Predictions](./Case1PredictionsDAVIS Attrition.csv)** — Predictions notebook. 
+- **[Predictions](./Case1PredictionsDAVIS%20Attrition.csv)** — Predictions notebook.
 
 The full analysis pipeline includes:
 - Exploratory Data Analysis (EDA)  
